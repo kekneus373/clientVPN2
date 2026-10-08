@@ -1,0 +1,5 @@
+C:\Users\Tester2\CodeProjects\clientVPN2\app\bin\Release\net10.0-windows\win-x64\publish\appsettings.json
+C:\Users\Tester2\CodeProjects\clientVPN2\app\bin\Release\net10.0-windows\win-x64\publish\res\ic_launcher.ico
+C:\Users\Tester2\CodeProjects\clientVPN2\app\bin\Release\net10.0-windows\win-x64\publish\main.bat
+C:\Users\Tester2\CodeProjects\clientVPN2\app\bin\Release\net10.0-windows\win-x64\publish\back.bat
+C:\Users\Tester2\CodeProjects\clientVPN2\app\bin\Release\net10.0-windows\win-x64\publish\app.exe
