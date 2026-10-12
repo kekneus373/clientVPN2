@@ -27,7 +27,7 @@ internal sealed class MainForm : Form
         _settings = LoadSettings(_configPath);
         _activationMessage = RegisterWindowMessage(ActivationMessageName);
 
-        Text = "VPN Launcher";
+        Text = "clientVPN v2";
         StartPosition = FormStartPosition.CenterScreen;
         FormBorderStyle = FormBorderStyle.FixedSingle;
         MaximizeBox = false;
@@ -133,7 +133,7 @@ internal sealed class MainForm : Form
         trayMenu.Items.Add("Exit", null, (_, _) => ExitApplication());
         _notifyIcon = new NotifyIcon
         {
-            Text = "VPN Launcher",
+            Text = "clientVPN v2",
             Icon = (Icon)Icon.Clone(),
             ContextMenuStrip = trayMenu,
             Visible = true
@@ -323,9 +323,9 @@ internal sealed class MainForm : Form
                 FileName = Environment.GetEnvironmentVariable("COMSPEC") ?? "cmd.exe",
                 Arguments = $"/d /c \"\"{batchPath}\"\"",
                 WorkingDirectory = Path.GetDirectoryName(batchPath)!,
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                WindowStyle = ProcessWindowStyle.Hidden
+                UseShellExecute = false, // Must remain false to capture output if needed, but see note below
+                CreateNoWindow = false,  // CHANGED: This was hiding the window
+                WindowStyle = ProcessWindowStyle.Normal // CHANGED: This ensures the window is visible
             };
 
             using Process process = Process.Start(startInfo)
@@ -347,7 +347,7 @@ internal sealed class MainForm : Form
             MessageBox.Show(
                 this,
                 exception.Message,
-                "VPN Launcher",
+                "clientVPN v2",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
         }

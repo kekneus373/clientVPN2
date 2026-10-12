@@ -1,5 +1,4 @@
 using System.Runtime.InteropServices;
-using System.Threading;
 
 namespace App;
 
@@ -31,7 +30,7 @@ internal static class Program
             {
                 MessageBox.Show(
                     exception.Message,
-                    "VPN Launcher",
+                    "clientVPN v2",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -49,7 +48,7 @@ internal static class Program
         {
             MessageBox.Show(
                 "The VPN Launcher is already running, but its window could not be activated.",
-                "VPN Launcher",
+                "clientVPN v2",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning);
         }
