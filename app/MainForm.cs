@@ -7,7 +7,6 @@ namespace App;
 
 internal sealed class MainForm : Form
 {
-    private const string ActivationMessageName = "CrystalFinanceVpnLauncher.Activate";
     private const uint ShellChangeUpdateItem = 0x00002000;
     private const uint ShellChangePathW = 0x0005;
 
@@ -25,9 +24,9 @@ internal sealed class MainForm : Form
     {
         _configPath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
         _settings = LoadSettings(_configPath);
-        _activationMessage = RegisterWindowMessage(ActivationMessageName);
+        _activationMessage = RegisterWindowMessage(Program.ActivationMessageName);
 
-        Text = "clientVPN v2";
+        Text = Program.WindowTitle;
         StartPosition = FormStartPosition.CenterScreen;
         FormBorderStyle = FormBorderStyle.FixedSingle;
         MaximizeBox = false;
@@ -455,13 +454,13 @@ internal sealed class MainForm : Form
 
     private void RestoreFromTray()
     {
+        ShowInTaskbar = true;
+        WindowState = FormWindowState.Normal;
         if (!Visible)
         {
             Show();
-            ShowInTaskbar = true;
         }
 
-        WindowState = FormWindowState.Normal;
         Activate();
         BringToFront();
     }

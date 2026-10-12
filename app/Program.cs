@@ -1,11 +1,15 @@
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace App;
 
 internal static class Program
 {
     private const string MutexName = @"Local\CrystalFinanceVpnLauncher";
-    private const string ActivationMessageName = "CrystalFinanceVpnLauncher.Activate";
+    internal const string ActivationMessageName = "CrystalFinanceVpnLauncher.Activate";
+    internal const string WindowTitle = "clientVPN v2";
+    private const int ActivationRetryCount = 30;
+    private const int ActivationRetryDelayMilliseconds = 100;
 
     [STAThread]
     private static void Main()
@@ -44,18 +48,50 @@ internal static class Program
     private static void ActivateExistingInstance()
     {
         uint message = RegisterWindowMessage(ActivationMessageName);
-        if (message == 0 || !PostMessage(new IntPtr(0xffff), message, IntPtr.Zero, IntPtr.Zero))
+        if (message == 0)
         {
             MessageBox.Show(
-                "The VPN Launcher is already running, but its window could not be activated.",
-                "clientVPN v2",
+                "The VPN Launcher is already running, but its activation message could not be registered.",
+                WindowTitle,
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning);
+            return;
         }
+
+        for (int attempt = 0; attempt < ActivationRetryCount; attempt++)
+        {
+            IntPtr existingWindow = FindWindow(null, WindowTitle);
+            if (existingWindow != IntPtr.Zero)
+            {
+                if (PostMessage(existingWindow, message, IntPtr.Zero, IntPtr.Zero))
+                {
+                    return;
+                }
+
+                int error = Marshal.GetLastWin32Error();
+                MessageBox.Show(
+                    $"The VPN Launcher is already running, but Windows could not activate its window (error {error}).",
+                    WindowTitle,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            Thread.Sleep(ActivationRetryDelayMilliseconds);
+        }
+
+        MessageBox.Show(
+            "The VPN Launcher is already starting, but its window did not become available.",
+            WindowTitle,
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Warning);
     }
 
     [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
     private static extern uint RegisterWindowMessage(string lpString);
+
+    [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+    private static extern IntPtr FindWindow(string? lpClassName, string lpWindowName);
 
     [DllImport("user32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
