@@ -1,7 +1,7 @@
 @echo off
 SET WAIT_TIME=5
 SET EXE="C:\Program Files\OpenVPN\bin\openvpn-gui.exe"
-SET CONFIG=client.ovpn
+SET CONFIG=client
 
 echo Stopping existing OpenVPN process...
 taskkill /IM openvpn-gui.exe
