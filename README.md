@@ -26,4 +26,4 @@ The supplied batch files expect OpenVPN GUI at `C:\Program Files\OpenVPN\bin\ope
 
 ## License
 
-Under MIT. The `app/ic_launcher.ico` is pulled from [OpenVPN Branding Assets](https://openvpn.net/branding/) - change if needed, left for clarity.
+Under MIT. The `app/ic_launcher.ico` is pulled from [OpenVPN Branding Assets](https://openvpn.net/branding/) (`© Copyright 2026 OpenVPN | OpenVPN is a registered trademark of OpenVPN, Inc.`) - change if needed, left for clarity.
